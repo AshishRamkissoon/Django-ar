@@ -26,6 +26,8 @@
 | 3 | 2026-05-19 | `develop` | — | `phase 3: GPT-4o Vision scan, moderation, cache, embeddings search` | ✅ Pushed |
 | 4 | 2026-05-19 | `develop` | — | `phase 4: AR.js + A-Frame frontend, HTMX scan flow, Tailwind UI` | ✅ Pushed |
 | 5 | 2026-05-19 | `develop` | — | `phase 5: rate limiting, CORS, HTTPS headers, input validation, secret scanning` | ✅ Pushed |
+| 6 | 2026-05-19 | `develop` | — | `phase 6: test suite, WhiteNoise, Procfile, README` | ✅ Pushed |
+| 7 | 2026-05-19 | `main` | `v1.0.0` | `merge develop → main: v1.0.0 release` | ✅ Pushed |
 
 ---
 
@@ -73,13 +75,13 @@ These are the planned pushes defined in `plan.md`. Check each off when done.
 
 ---
 
-### Phase 6 — Testing & Production Readiness
-- [ ] **Branch:** `develop` → merge to `main`
-- [ ] **Tag:** `v1.0.0`
-- [ ] **Commit (develop):** `phase 6: test suite, WhiteNoise static files, Procfile, README`
-- [ ] **Commit (main merge):** `merge develop → main: v1.0.0 release`
-- [ ] **Includes:** `tests/`, `Procfile`, `README.md`
-- [ ] **Pushed:** —
+### Phase 6 — Testing & Production Readiness ✅
+- [x] **Branch:** `develop` → merge to `main`
+- [x] **Tag:** `v1.0.0`
+- [x] **Commit (develop):** `phase 6: test suite, WhiteNoise static files, Procfile, README`
+- [x] **Commit (main merge):** `merge develop → main: v1.0.0 release`
+- [x] **Includes:** `tests/`, `Procfile`, `README.md`, `pytest.ini`, `config/settings/base.py`
+- [x] **Pushed:** 2026-05-19
 
 ---
 
