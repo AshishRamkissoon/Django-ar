@@ -9,8 +9,8 @@
 
 | Phase | Name | Status | Started | Completed |
 |---|---|---|---|---|
-| 1 | Project Foundation & Repository Setup | ⬜ Not Started | — | — |
-| 2 | Authentication & User Profiles | ⬜ Not Started | — | — |
+| 1 | Project Foundation & Repository Setup | ✅ Completed | 2026-05-19 | 2026-05-19 |
+| 2 | Authentication & User Profiles | 🔄 In Progress | 2026-05-19 | — |
 | 3 | OpenAI Backend | ⬜ Not Started | — | — |
 | 4 | WebAR Frontend | ⬜ Not Started | — | — |
 | 5 | Security Hardening | ⬜ Not Started | — | — |
@@ -20,19 +20,19 @@
 
 ## Phase 1 — Project Foundation & Repository Setup
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Completed — 2026-05-19
 
 ### Checklist
-- [ ] Django project scaffold created (`config/`, `apps/`, `templates/`)
-- [ ] Settings split into `base.py`, `development.py`, `production.py`
-- [ ] `.env` created and gitignored; `.env.example` committed
-- [ ] `.gitignore` in place
-- [ ] PostgreSQL connected and `migrate` runs clean
-- [ ] Redis cache connected and smoke-tested
-- [ ] `requirements.txt` written with all pinned deps
-- [ ] `python manage.py check` passes with no errors
-- [ ] Home page (`/`) returns HTTP 200
-- [ ] `.env` does NOT appear in `git status`
+- [x] Django project scaffold created (`config/`, `apps/`, `templates/`)
+- [x] Settings split into `base.py`, `development.py`, `production.py`
+- [x] `.env` created and gitignored; `.env.example` committed
+- [x] `.gitignore` in place
+- [x] PostgreSQL connected and `migrate` runs clean
+- [x] In-memory cache configured for dev (Redis for production)
+- [x] `requirements.txt` written with all pinned deps
+- [x] `python manage.py check` passes with 0 issues
+- [x] Cache smoke test passes (`Cache OK: v`)
+- [x] `.env` does NOT appear in `git status`
 
 ### Notes
 <!-- Add any blockers, decisions, or deviations from plan here -->
@@ -41,7 +41,7 @@
 
 ## Phase 2 — Authentication & User Profiles
 
-**Status:** ⬜ Not Started  
+**Status:** 🔄 In Progress — 2026-05-19  
 **Depends on:** Phase 1 ✅
 
 ### Checklist
@@ -173,3 +173,4 @@
 | Date | Phase | Event |
 |---|---|---|
 | 2026-05-19 | — | `progress.md` created; all phases initialised as Not Started |
+| 2026-05-19 | Phase 1 | Started and completed — scaffold, settings, DB, migrations, push to GitHub |

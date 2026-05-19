@@ -21,7 +21,7 @@
 
 | # | Date | Branch | Tag | Commit Message | Status |
 |---|---|---|---|---|---|
-| — | — | — | — | *No pushes yet* | — |
+| 1 | 2026-05-19 | `develop` | — | `phase 1: project scaffold, settings split, env config` | ✅ Pushed |
 
 ---
 
@@ -29,11 +29,11 @@
 
 These are the planned pushes defined in `plan.md`. Check each off when done.
 
-### Phase 1 — Project Foundation
-- [ ] **Branch:** `develop`
-- [ ] **Commit:** `phase 1: project scaffold, settings split, env config`
-- [ ] **Includes:** `config/`, `apps/`, `templates/`, `.gitignore`, `requirements.txt`, `.env.example`, `CLAUDE.md`, `requirements.md`, `plan.md`, `progress.md`, `git.md`
-- [ ] **Pushed:** —
+### Phase 1 — Project Foundation ✅
+- [x] **Branch:** `develop`
+- [x] **Commit:** `phase 1: project scaffold, settings split, env config`
+- [x] **Includes:** `config/`, `apps/`, `templates/`, `.gitignore`, `requirements.txt`, `.env.example`, `CLAUDE.md`, `requirements.md`, `plan.md`, `progress.md`, `git.md`
+- [x] **Pushed:** 2026-05-19 — commit `ee474f9`
 
 ---
 
@@ -111,3 +111,4 @@ detect-secrets scan          # confirm no new secrets
 | Date | Event |
 |---|---|
 | 2026-05-19 | `git.md` created; all phase push targets initialised as pending |
+| 2026-05-19 | Phase 1 pushed to `develop` — commit `ee474f9` |
