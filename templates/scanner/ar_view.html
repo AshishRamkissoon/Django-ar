@@ -2,11 +2,200 @@
 {% block title %}AR View — AR Learn{% endblock %}
 
 {% block content %}
-<div class="flex items-center justify-center h-screen text-center">
-  <div>
-    <p class="text-6xl mb-4">📷</p>
-    <h1 class="text-2xl font-bold mb-2">AR Camera View</h1>
-    <p class="text-gray-400">Coming in Phase 4 — WebAR + GPT-4o Vision scan.</p>
+<!-- A-Frame + AR.js (loaded only for the AR scene, not the full base) -->
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+<style>
+  /* Let the AR scene sit below our nav */
+  #ar-container { position: relative; width: 100%; height: calc(100vh - 52px); overflow: hidden; }
+  a-scene { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+  /* Desktop fallback video */
+  #fallback-video { display: none; width: 100%; height: 100%; object-fit: cover; background: #000; }
+
+  /* Result overlay — bottom of screen */
+  #result-overlay {
+    position: absolute; bottom: 96px; left: 1rem; right: 1rem; z-index: 20;
+    background: rgba(0,0,0,0.75); border-radius: 1rem; padding: 1rem;
+    backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1);
+    max-height: 45vh; overflow-y: auto;
+    display: none;
+  }
+  #result-overlay.visible { display: block; }
+
+  /* Scan button */
+  #scan-btn {
+    position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 20;
+    background: #2563eb; color: white; font-weight: 700; font-size: 1rem;
+    padding: 0.875rem 2.5rem; border-radius: 9999px; border: none; cursor: pointer;
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.3);
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.1em;
+  }
+  #scan-btn:active { transform: translateX(-50%) scale(0.96); }
+  #scan-btn:disabled { background: #475569; cursor: not-allowed; box-shadow: none; }
+
+  /* Spinner overlay */
+  #spinner {
+    display: none; position: absolute; inset: 0; z-index: 30;
+    background: rgba(0,0,0,0.5); align-items: center; justify-content: center;
+  }
+  #spinner.active { display: flex; }
+
+  /* Close button on result */
+  #close-result {
+    position: absolute; top: 0.5rem; right: 0.75rem;
+    background: none; border: none; color: #9ca3af; font-size: 1.25rem; cursor: pointer;
+  }
+
+  /* No API key banner */
+  #no-key-banner {
+    position: absolute; top: 1rem; left: 1rem; right: 1rem; z-index: 20;
+    background: rgba(239,68,68,0.85); border-radius: 0.75rem; padding: 0.75rem 1rem;
+    display: flex; align-items: center; justify-content: space-between; font-size: 0.875rem;
+  }
+</style>
+
+<div id="ar-container">
+
+  {% if not request.user.profile.has_api_key %}
+  <div id="no-key-banner">
+    <span>⚠ No OpenAI API key set.</span>
+    <a href="/accounts/profile/" class="underline font-semibold ml-2">Add key →</a>
   </div>
+  {% endif %}
+
+  <!-- AR.js scene — camera feed rendered here -->
+  <a-scene id="ar-scene"
+           embedded
+           arjs="sourceType: webcam; debugUIEnabled: false; patternRatio: 0.75;"
+           vr-mode-ui="enabled: false"
+           renderer="logarithmicDepthBuffer: true; antialias: true;">
+    <a-camera></a-camera>
+  </a-scene>
+
+  <!-- Desktop fallback: plain video element -->
+  <video id="fallback-video" autoplay playsinline muted></video>
+
+  <!-- Spinner shown while HTMX request is in flight -->
+  <div id="spinner">
+    <div class="flex flex-col items-center gap-3">
+      <div class="w-14 h-14 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-white text-sm font-medium">Analysing with AI…</p>
+    </div>
+  </div>
+
+  <!-- Result overlay — HTMX swaps content here -->
+  <div id="result-overlay">
+    <button id="close-result" onclick="closeResult()" title="Close">✕</button>
+    <div id="result-content"></div>
+  </div>
+
+  <!-- Scan button -->
+  <button id="scan-btn" onclick="captureAndScan()">
+    📷 &nbsp;SCAN
+  </button>
+
+  <!-- Hidden HTMX form — submits the captured frame -->
+  <form id="scan-form"
+        hx-post="/api/scan/"
+        hx-target="#result-content"
+        hx-swap="innerHTML"
+        style="display:none;">
+    {% csrf_token %}
+    <input type="hidden" id="frame-input" name="image">
+  </form>
+
 </div>
+
+<script>
+  const scanBtn = document.getElementById("scan-btn");
+  const spinner = document.getElementById("spinner");
+  const overlay = document.getElementById("result-overlay");
+  const arScene = document.getElementById("ar-scene");
+  const fallback = document.getElementById("fallback-video");
+
+  /* ── Desktop fallback ── */
+  function startFallbackCamera() {
+    arScene.style.display = "none";
+    fallback.style.display = "block";
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false })
+      .then(stream => { fallback.srcObject = stream; })
+      .catch(() => { fallback.style.background = "#1f2937"; });
+  }
+
+  if (!window.AFRAME || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    startFallbackCamera();
+  } else {
+    // Give A-Frame 3 s to attach a <video>; fall back if it doesn't
+    setTimeout(() => {
+      const arVideo = document.querySelector("a-scene video, canvas");
+      if (!arVideo) startFallbackCamera();
+    }, 3000);
+  }
+
+  /* ── Capture frame and trigger HTMX scan ── */
+  function captureAndScan() {
+    // Pick the live video source (AR.js canvas OR fallback video)
+    const source = document.querySelector("#ar-scene canvas") ||
+                   document.querySelector("#ar-scene video") ||
+                   fallback;
+
+    if (!source || (source.videoWidth === 0 && source.tagName === "VIDEO")) {
+      alert("Camera not ready. Please wait a moment and try again.");
+      return;
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width  = source.videoWidth  || source.width  || 640;
+    canvas.height = source.videoHeight || source.height || 480;
+    const ctx = canvas.getContext("2d");
+
+    try {
+      ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+    } catch (e) {
+      // CORS restriction on AR.js canvas — use fallback capture
+      startFallbackCamera();
+      alert("Switched to standard camera mode. Please tap Scan again.");
+      return;
+    }
+
+    const base64 = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
+    document.getElementById("frame-input").value = base64;
+
+    showSpinner();
+    htmx.trigger("#scan-form", "submit");
+  }
+
+  function showSpinner() {
+    scanBtn.disabled = true;
+    spinner.classList.add("active");
+    overlay.classList.remove("visible");
+  }
+
+  function hideSpinner() {
+    scanBtn.disabled = false;
+    spinner.classList.remove("active");
+  }
+
+  function closeResult() {
+    overlay.classList.remove("visible");
+  }
+
+  /* ── HTMX lifecycle hooks ── */
+  document.addEventListener("htmx:afterRequest", function (e) {
+    if (e.detail.elt.id !== "scan-form") return;
+    hideSpinner();
+    overlay.classList.add("visible");
+  });
+
+  document.addEventListener("htmx:responseError", function (e) {
+    if (e.detail.elt.id !== "scan-form") return;
+    hideSpinner();
+    document.getElementById("result-content").innerHTML =
+      '<p class="text-red-400 text-sm">⚠ Scan failed. Please try again.</p>';
+    overlay.classList.add("visible");
+  });
+</script>
 {% endblock %}

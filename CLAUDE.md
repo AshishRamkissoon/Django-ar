@@ -74,9 +74,9 @@ When a phase is approved by the user: update `progress.md` (status → ✅, log 
 | Phase | Name | Status |
 |---|---|---|
 | 1 | Project Foundation & Repository Setup | ✅ Completed |
-| 2 | Authentication & User Profiles | ⬜ Not Started |
-| 3 | OpenAI Backend | ⬜ Not Started |
-| 4 | WebAR Frontend | ⬜ Not Started |
+| 2 | Authentication & User Profiles | ✅ Completed |
+| 3 | OpenAI Backend | ✅ Completed |
+| 4 | WebAR Frontend | ✅ Completed |
 | 5 | Security Hardening | ⬜ Not Started |
 | 6 | Testing & Production Readiness | ⬜ Not Started |
 

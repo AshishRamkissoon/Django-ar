@@ -44,10 +44,20 @@
     </form>
   </div>
 
-  <!-- Account Info -->
+  <!-- Account Info + quick links -->
   <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mt-4">
     <h2 class="text-xl font-semibold mb-3">Account</h2>
-    <p class="text-gray-400 text-sm">Signed in as <span class="text-white">{{ user.email }}</span></p>
+    <p class="text-gray-400 text-sm mb-4">Signed in as <span class="text-white">{{ user.email }}</span></p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/ar/"
+         class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+        📷 Open AR View
+      </a>
+      <a href="/api/history/"
+         class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-semibold px-4 py-2 rounded-lg transition">
+        📋 View History
+      </a>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -1,7 +1,22 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import APIKeyForm
+
+
+def local_login(request):
+    if request.method == "POST":
+        user = authenticate(
+            request,
+            username=request.POST.get("username"),
+            password=request.POST.get("password"),
+        )
+        if user:
+            login(request, user)
+            return redirect("ar_view")
+        messages.error(request, "Invalid username or password.")
+    return redirect("account_login")
 
 
 @login_required

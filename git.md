@@ -22,6 +22,8 @@
 | # | Date | Branch | Tag | Commit Message | Status |
 |---|---|---|---|---|---|
 | 1 | 2026-05-19 | `develop` | — | `phase 1: project scaffold, settings split, env config` | ✅ Pushed |
+| 2 | 2026-05-19 | `develop` | — | `phase 2: OAuth login, UserProfile, encrypted API key storage` | ✅ Pushed |
+| 3 | 2026-05-19 | `develop` | — | `phase 3: GPT-4o Vision scan, moderation, cache, embeddings search` | ✅ Pushed |
 
 ---
 
@@ -37,11 +39,11 @@ These are the planned pushes defined in `plan.md`. Check each off when done.
 
 ---
 
-### Phase 2 — Authentication & User Profiles
-- [ ] **Branch:** `develop`
-- [ ] **Commit:** `phase 2: OAuth login, UserProfile, encrypted API key storage`
-- [ ] **Includes:** `apps/accounts/`, `config/settings/`, `templates/accounts/`
-- [ ] **Pushed:** —
+### Phase 2 — Authentication & User Profiles ✅
+- [x] **Branch:** `develop`
+- [x] **Commit:** `phase 2: OAuth login, UserProfile, encrypted API key storage`
+- [x] **Includes:** `apps/accounts/`, `config/settings/`, `templates/accounts/`
+- [x] **Pushed:** 2026-05-19 — commit `2012fe3`
 
 ---
 
@@ -53,11 +55,11 @@ These are the planned pushes defined in `plan.md`. Check each off when done.
 
 ---
 
-### Phase 4 — WebAR Frontend
-- [ ] **Branch:** `develop`
-- [ ] **Commit:** `phase 4: AR.js + A-Frame frontend, HTMX scan flow, Tailwind UI`
-- [ ] **Includes:** `templates/` (all remaining), `apps/core/`
-- [ ] **Pushed:** —
+### Phase 4 — WebAR Frontend ✅
+- [x] **Branch:** `develop`
+- [x] **Commit:** `phase 4: AR.js + A-Frame frontend, HTMX scan flow, Tailwind UI`
+- [x] **Includes:** `templates/` (all remaining), `apps/core/`, `config/settings/development.py`
+- [x] **Pushed:** 2026-05-19
 
 ---
 
