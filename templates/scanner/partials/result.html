@@ -1,0 +1,26 @@
+<div class="space-y-3">
+  <p class="text-yellow-400 font-bold text-lg">{{ label }}</p>
+  <p class="text-sm leading-relaxed text-gray-100">{{ explanation }}</p>
+
+  {% if related_topics %}
+  <div class="flex flex-wrap gap-2 mt-1">
+    {% for topic in related_topics %}
+    <span class="bg-blue-900 text-blue-300 text-xs px-2 py-1 rounded-full">{{ topic }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if related_content %}
+  <div class="border-t border-white/20 pt-3 mt-2">
+    <p class="text-xs text-gray-400 uppercase tracking-wide mb-2">Explore next</p>
+    {% for item in related_content %}
+    <a href="{{ item.source_url }}"
+       class="block text-blue-400 text-sm hover:underline truncate">
+      {{ item.title }}
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <p class="text-gray-600 text-xs mt-2">{{ tokens_used }} tokens used</p>
+</div>
