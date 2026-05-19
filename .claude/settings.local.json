@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir C:\\\\Users\\\\User\\\\Desktop\\\\openai *)",
+      "Bash(pip --version)",
+      "Bash(psql --version)",
+      "Bash(redis-cli --version)",
+      "Bash(docker --version)",
+      "Bash(winget --version)",
+      "Bash(pg_isready)",
+      "Bash(wsl --status)",
+      "Bash(winget search *)",
+      "Bash(winget install *)",
+      "Bash(choco --version)",
+      "Bash(wsl -l -v)",
+      "Bash(python -m venv \"C:/Users/User/Desktop/openai/.venv\")",
+      "Bash(psql *)",
+      "Bash(kill %1)",
+      "Bash(PGPASSWORD=admin psql *)",
+      "Bash(PGPASSWORD=postgres psql *)",
+      "Bash(grep -v \"^$\")",
+      "PowerShell(Restart-Service *)",
+      "Bash(/c/Program Files/PostgreSQL/14/bin/pg_ctl reload *)",
+      "PowerShell(Get-Service *)",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)"
+    ]
+  }
+}
