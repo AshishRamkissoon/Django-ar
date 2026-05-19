@@ -24,6 +24,8 @@
 | 1 | 2026-05-19 | `develop` | — | `phase 1: project scaffold, settings split, env config` | ✅ Pushed |
 | 2 | 2026-05-19 | `develop` | — | `phase 2: OAuth login, UserProfile, encrypted API key storage` | ✅ Pushed |
 | 3 | 2026-05-19 | `develop` | — | `phase 3: GPT-4o Vision scan, moderation, cache, embeddings search` | ✅ Pushed |
+| 4 | 2026-05-19 | `develop` | — | `phase 4: AR.js + A-Frame frontend, HTMX scan flow, Tailwind UI` | ✅ Pushed |
+| 5 | 2026-05-19 | `develop` | — | `phase 5: rate limiting, CORS, HTTPS headers, input validation, secret scanning` | ✅ Pushed |
 
 ---
 
@@ -63,11 +65,11 @@ These are the planned pushes defined in `plan.md`. Check each off when done.
 
 ---
 
-### Phase 5 — Security Hardening
-- [ ] **Branch:** `develop`
-- [ ] **Commit:** `phase 5: rate limiting, CORS, HTTPS headers, input validation, secret scanning`
-- [ ] **Includes:** `config/settings/`, `apps/scanner/views.py`, `.secrets.baseline`, `.pre-commit-config.yaml`
-- [ ] **Pushed:** —
+### Phase 5 — Security Hardening ✅
+- [x] **Branch:** `develop`
+- [x] **Commit:** `phase 5: rate limiting, CORS, HTTPS headers, input validation, secret scanning`
+- [x] **Includes:** `apps/scanner/views.py`, `templates/scanner/partials/ratelimit.html`, `.secrets.baseline`, `.pre-commit-config.yaml`, `requirements.txt`
+- [x] **Pushed:** 2026-05-19
 
 ---
 

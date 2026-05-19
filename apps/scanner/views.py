@@ -3,8 +3,8 @@ import logging
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.http import HttpResponse
 from django.core.paginator import Paginator
+from django_ratelimit.decorators import ratelimit
 from . import services
 from .models import ScanSession
 
@@ -14,8 +14,12 @@ MAX_IMAGE_BYTES = 5_000_000  # 5 MB Base64 limit
 
 
 @login_required
+@ratelimit(key="user", rate="10/m", method="POST", block=False)
 @require_POST
 def scan_view(request):
+    if getattr(request, "limited", False):
+        return render(request, "scanner/partials/ratelimit.html", status=429)
+
     image_b64 = request.POST.get("image", "").strip()
 
     # Input validation

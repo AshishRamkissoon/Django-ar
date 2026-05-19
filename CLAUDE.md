@@ -77,7 +77,7 @@ When a phase is approved by the user: update `progress.md` (status → ✅, log 
 | 2 | Authentication & User Profiles | ✅ Completed |
 | 3 | OpenAI Backend | ✅ Completed |
 | 4 | WebAR Frontend | ✅ Completed |
-| 5 | Security Hardening | ⬜ Not Started |
+| 5 | Security Hardening | ✅ Completed |
 | 6 | Testing & Production Readiness | ⬜ Not Started |
 
 ---
